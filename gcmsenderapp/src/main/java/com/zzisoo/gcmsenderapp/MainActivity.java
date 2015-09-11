@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 
 import org.json.JSONObject;
 
@@ -23,8 +24,8 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
 
-    public static final String API_KEY = "API_KEY";
-    public static final String API_TOKEN = "GCM Registration Token";
+    public static final String API_KEY = ""; 
+    public static final String API_TOKEN = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
         final EditText etToken = (EditText) findViewById(R.id.etToken);
         etToken.setText(API_TOKEN);
+
 
         Button btnSend = (Button) findViewById(R.id.btnSend);
         btnSend.setOnClickListener(new View.OnClickListener() {
@@ -47,7 +49,14 @@ public class MainActivity extends AppCompatActivity {
                     EditText etTitle = (EditText) findViewById(R.id.etTitle);
                     EditText etBody = (EditText) findViewById(R.id.etBody);
 
-                    gcmData.to = API_TOKEN;
+                    RadioGroup rgTargetSelect = (RadioGroup) findViewById(R.id.rgTargetSelect);
+
+                    if (rgTargetSelect.getCheckedRadioButtonId() == R.id.rbToken) {
+                        gcmData.to = API_TOKEN;
+                    } else if (rgTargetSelect.getCheckedRadioButtonId() == R.id.rbTopic) {
+                        gcmData.to = "/topics/global";
+                    }
+
                     gcmData.data.title = etTitle.getText().toString();
                     gcmData.data.body = etBody.getText().toString();
 
@@ -90,17 +99,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btnSend.callOnClick();
-
-
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-
-
         return true;
     }
 

@@ -18,16 +18,57 @@
         android:layout_alignParentTop="true"
         android:orientation="vertical">
 
+        <Button
+            android:id="@+id/btnSend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="SEND" />
+
+
+        <RadioGroup
+            android:id="@+id/rgTargetSelect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/rbTopic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="/Topic/global" />
+
+            <RadioButton
+                android:id="@+id/rbToken"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:text="Token" />
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/tvToken"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Token" />
+
+
+        <EditText
+            android:id="@+id/etToken"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
         <TextView
             android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Title" />
+
         <EditText
             android:id="@+id/etTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="GCM TEST"/>
+            android:text="GCM TEST" />
 
         <TextView
             android:id="@+id/tvBody"
@@ -40,27 +81,8 @@
             android:id="@+id/etBody"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="GCM TEST MESSAGE"/>/>
+            android:text="GCM TEST MESSAGE" />/>
 
 
-        <TextView
-            android:id="@+id/tvToken"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Token" />
-
-
-        <EditText
-            android:id="@+id/etToken"
-            android:hint="if not input any text this field and MainActivity.API_TOKEN is empty, send to /topic/All."
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="SEND"
-            android:id="@+id/btnSend"
-            android:layout_gravity="center_horizontal" />
     </LinearLayout>
 </RelativeLayout>
