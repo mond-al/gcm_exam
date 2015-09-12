@@ -12,7 +12,7 @@ And Add GcmSender App(Android)
 
 Screenshots
 -----------
-![Screenshot](gcmsenderapp/screencapure.png)
+![Screenshot](screencapure.png)
 ![Screenshot](app/src/main/gcm-sample.png)
 
 Introduction
