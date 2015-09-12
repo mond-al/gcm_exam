@@ -7,6 +7,14 @@ InstanceID allows easy registration while GcmReceiver and
 GcmListenerService provide simple means of receiving and handling
 messages.
 
+And Add GcmSender App(Android)
+
+
+Screenshots
+-----------
+![Screenshot](gcmsenderapp/screencapure.png)
+![Screenshot](app/src/main/gcm-sample.png)
+
 Introduction
 ------------
 
@@ -22,10 +30,6 @@ Getting Started
 - Run the terminal command to send GCM message to your device.
 - A notification containing the GCM message should be displayed on the
   device.
-
-Screenshots
------------
-![Screenshot](app/src/main/gcm-sample.png)
 
 Support
 -------
