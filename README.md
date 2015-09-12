@@ -1,4 +1,4 @@
-Google Cloud Messaging Quickstart
+Google Cloud Messaging Quickstart With GcmSender App(Android)
 =================================
 
 Google Cloud Messaging Android Quickstart app demonstrates registering
@@ -7,12 +7,12 @@ InstanceID allows easy registration while GcmReceiver and
 GcmListenerService provide simple means of receiving and handling
 messages.
 
-And Add GcmSender App(Android)
+
 
 
 Screenshots
 -----------
-![Screenshot](screencapure.png)
+![Screenshot](screencapture.png)
 ![Screenshot](app/src/main/gcm-sample.png)
 
 Introduction
