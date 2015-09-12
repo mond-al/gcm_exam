@@ -13,6 +13,6 @@ messages.
 Screenshots
 -----------
 ![Screenshot](screencapture.png)
-![Screenshot](app/src/main/gcm-sample.png)
+![Screenshot](notification.png)
 
 
