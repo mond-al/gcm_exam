@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
 
-    public static final String API_KEY = ""; 
+    public static final String API_KEY = "";
     public static final String API_TOKEN = "";
 
     @Override
@@ -32,11 +32,29 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        View.OnFocusChangeListener onFocusResetTextListener = new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    try {
+                        ((EditText) v).setText("");
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
 
         final EditText etToken = (EditText) findViewById(R.id.etToken);
+        final EditText etApiKey = (EditText) findViewById(R.id.etApiKey);
+
         etToken.setText(API_TOKEN);
+        etApiKey.setText(API_KEY);
 
+        etToken.setOnFocusChangeListener(onFocusResetTextListener);
+        etApiKey.setOnFocusChangeListener(onFocusResetTextListener);
 
+        // set Send button action
         Button btnSend = (Button) findViewById(R.id.btnSend);
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,8 +69,9 @@ public class MainActivity extends AppCompatActivity {
 
                     RadioGroup rgTargetSelect = (RadioGroup) findViewById(R.id.rgTargetSelect);
 
+
                     if (rgTargetSelect.getCheckedRadioButtonId() == R.id.rbToken) {
-                        gcmData.to = API_TOKEN;
+                        gcmData.to = etToken.getText().toString();
                     } else if (rgTargetSelect.getCheckedRadioButtonId() == R.id.rbTopic) {
                         gcmData.to = "/topics/global";
                     }
@@ -68,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void intercept(RequestFacade request) {
                             request.addHeader("Accept", "application/json");
-                            request.addHeader("Authorization", "key=" + API_KEY);
+                            request.addHeader("Authorization", "key=" + etApiKey.getText().toString());
                         }
                     });
 
