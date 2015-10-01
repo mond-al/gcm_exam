@@ -16,12 +16,15 @@
 
 package gcm.play.android.samples.com.gcmquickstart;
 
+import android.annotation.TargetApi;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
@@ -31,7 +34,6 @@ import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,11 +43,37 @@ public class MainActivity extends AppCompatActivity {
     private BroadcastReceiver mRegistrationBroadcastReceiver;
     private ProgressBar mRegistrationProgressBar;
     private TextView mInformationTextView;
+    private BroadcastReceiver mDozeModeReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        if (mDozeModeReceiver != null) {
+            unregisterReceiver(mDozeModeReceiver);
+        }
+
+        mDozeModeReceiver = new BroadcastReceiver() {
+            @TargetApi(23)
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Log.e(TAG, intent.toString());
+                PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+                if (Build.VERSION.SDK_INT >= (Build.VERSION_CODES.M)) {
+                    if (pm.isDeviceIdleMode()) {
+                        Log.e(TAG, "Device on Doze Mode");
+                    } else {
+                        Log.e(TAG, "Device on Active Mode");
+                    }
+                }
+            }
+        };
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(PowerManager.ACTION_DEVICE_IDLE_MODE_CHANGED);
+        getApplicationContext().registerReceiver(mDozeModeReceiver, filter);
 
         mRegistrationProgressBar = (ProgressBar) findViewById(R.id.registrationProgressBar);
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
@@ -106,4 +134,9 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        getApplicationContext().unregisterReceiver(mDozeModeReceiver);
+    }
 }

@@ -1,5 +1,6 @@
 package com.gongdol.http;
 
+import com.gongdol.http.vo.AckResponse;
 import com.gongdol.http.vo.TokenRegResponse;
 
 import retrofit.Callback;
@@ -27,6 +28,12 @@ public interface RequestInterface {
             @Path("userId") String userId,
             @Path("token") String token,
             Callback<TokenRegResponse> callback
+    );
+
+    @POST("/gcm/{userId}/push/ack")
+    void GcmAck(
+            @Path("userId") String userId,
+            Callback<AckResponse> callback
     );
 
 }

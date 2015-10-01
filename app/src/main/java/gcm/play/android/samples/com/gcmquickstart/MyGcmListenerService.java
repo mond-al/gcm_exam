@@ -16,17 +16,30 @@
 
 package gcm.play.android.samples.com.gcmquickstart;
 
+import android.annotation.TargetApi;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.gongdol.http.Contants;
+import com.gongdol.http.RequestInterface;
+import com.gongdol.http.vo.AckResponse;
 import com.google.android.gms.gcm.GcmListenerService;
+
+import retrofit.Callback;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class MyGcmListenerService extends GcmListenerService {
 
@@ -95,5 +108,53 @@ public class MyGcmListenerService extends GcmListenerService {
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+
+        final ConnectivityManager conMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        final NetworkInfo activeNetwork = conMgr.getActiveNetworkInfo();
+        if (activeNetwork != null && activeNetwork.isConnected()) {
+            // notify user you are online
+            Log.e(TAG,"NetworkInfo.State.CONNECTING OR NetworkInfo.State.CONNECTED");
+
+
+            logMode();
+
+            RestAdapter tokenRegRestAdapter = new RestAdapter.Builder()
+                    .setLogLevel(RestAdapter.LogLevel.FULL)
+                    .setEndpoint(Contants.SERVER_URL).build();
+
+            tokenRegRestAdapter.create(RequestInterface.class)
+                    .GcmAck("TestUserID", new Callback<AckResponse>() {
+                        @Override
+                        public void success(AckResponse ackResponse, Response response) {
+                            Log.e(TAG, ackResponse.getMsg());
+                        }
+
+                        @Override
+                        public void failure(RetrofitError error) {
+                            Log.e(TAG, error.toString());
+                        }
+                    });
+
+        } else {
+            // notify user you are not online
+            Log.e(TAG,"NetworkInfo.State.DISCONNECTED");
+        }
+
     }
+
+    @TargetApi(23)
+    private void logMode() {
+        PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        if(android.os.Build.VERSION.SDK_INT >= (Build.VERSION_CODES.M)) {
+            if (pm.isDeviceIdleMode()) {
+                Log.e(TAG, "DOZE MODE");
+            } else {
+                Log.e(TAG, "ACTIVE MODE");
+            }
+        }else{
+            Log.e(TAG, "Must ACTIVE MODE");
+        }
+    }
+
+
 }
