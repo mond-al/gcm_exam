@@ -9,7 +9,9 @@ messages.
 
 Blog Post
 -----------
-http://zzisoo9.blog.me/220469401035
+GCM : http://zzisoo9.blog.me/220469401035
+DozeMode : http://zzisoo9.blog.me/220496388752
+
 
 Screenshots
 -----------
