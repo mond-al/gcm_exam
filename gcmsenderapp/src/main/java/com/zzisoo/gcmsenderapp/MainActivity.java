@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import org.json.JSONObject;
 
@@ -61,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
 
                     RadioGroup rgTargetSelect = (RadioGroup) findViewById(R.id.rgTargetSelect);
 
-
                     if (rgTargetSelect.getCheckedRadioButtonId() == R.id.rbToken) {
                         gcmData.to = etToken.getText().toString();
                     } else if (rgTargetSelect.getCheckedRadioButtonId() == R.id.rbTopic) {
@@ -72,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
                     if(bCheckedNormalPriority) {
                         gcmData.priority = "normal";
                     }
+
+                    Toast.makeText(MainActivity.this, "Priority : "+gcmData.priority, Toast.LENGTH_SHORT).show();
 
                     gcmData.data.title = etTitle.getText().toString();
                     gcmData.data.body = etBody.getText().toString();

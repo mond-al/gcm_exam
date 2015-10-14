@@ -57,11 +57,9 @@ public class MyGcmListenerService extends GcmListenerService {
     public void onMessageReceived(String from, Bundle data) {
         String title = data.getString("title");
         String body = data.getString("body");
-        String priority = data.getString("priority");
         Log.d(TAG, "From: " + from);
         Log.d(TAG, "title: " + title);
         Log.d(TAG, "body: " + body);
-        Log.d(TAG, "Priority: " + priority);
 
         if (from.startsWith("/topics/")) {
             body = "[ Push By Subscription Topic ]" + body;
@@ -73,7 +71,7 @@ public class MyGcmListenerService extends GcmListenerService {
         PowerManager pm = (PowerManager) getApplicationContext().getSystemService(Context.POWER_SERVICE);
         PowerManager.WakeLock wl = pm.newWakeLock(
                 PowerManager.ACQUIRE_CAUSES_WAKEUP |
-                        PowerManager.FULL_WAKE_LOCK |
+                        PowerManager.PARTIAL_WAKE_LOCK |
                         PowerManager.ON_AFTER_RELEASE, "TAG");
         wl.acquire();
         wl.release();
@@ -119,7 +117,7 @@ public class MyGcmListenerService extends GcmListenerService {
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+        notificationManager.notify((int) System.currentTimeMillis(), notificationBuilder.build());
 
         final ConnectivityManager conMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         final NetworkInfo activeNetwork = conMgr.getActiveNetworkInfo();
