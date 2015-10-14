@@ -29,6 +29,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -93,6 +94,18 @@ public class MainActivity extends AppCompatActivity {
         };
         mInformationTextView = (TextView) findViewById(R.id.informationTextView);
 
+        startGcmReg();
+
+
+        findViewById(R.id.tokenSendButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startGcmReg();
+            }
+        });
+    }
+
+    private void startGcmReg() {
         if (checkPlayServices()) {
             // Start IntentService to register this application with GCM.
             Intent intent = new Intent(this, RegistrationIntentService.class);

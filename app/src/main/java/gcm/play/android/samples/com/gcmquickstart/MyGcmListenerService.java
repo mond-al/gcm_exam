@@ -57,15 +57,27 @@ public class MyGcmListenerService extends GcmListenerService {
     public void onMessageReceived(String from, Bundle data) {
         String title = data.getString("title");
         String body = data.getString("body");
+        String priority = data.getString("priority");
         Log.d(TAG, "From: " + from);
         Log.d(TAG, "title: " + title);
         Log.d(TAG, "body: " + body);
+        Log.d(TAG, "Priority: " + priority);
 
         if (from.startsWith("/topics/")) {
             body = "[ Push By Subscription Topic ]" + body;
         } else {
             // normal downstream message.
         }
+
+
+        PowerManager pm = (PowerManager) getApplicationContext().getSystemService(Context.POWER_SERVICE);
+        PowerManager.WakeLock wl = pm.newWakeLock(
+                PowerManager.ACQUIRE_CAUSES_WAKEUP |
+                        PowerManager.FULL_WAKE_LOCK |
+                        PowerManager.ON_AFTER_RELEASE, "TAG");
+        wl.acquire();
+        wl.release();
+
 
         // [START_EXCLUDE]
         /**

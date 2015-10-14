@@ -7,6 +7,7 @@ public class GcmData {
     public GcmData() {
         this.to = "";
         this.data = new Data();
+        this.priority = "high";
     }
 
     public class Data {
@@ -16,5 +17,5 @@ public class GcmData {
 
     public String to;
     public Data data;
-
+    public String priority;
 }

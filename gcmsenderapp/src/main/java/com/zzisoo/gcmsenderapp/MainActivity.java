@@ -1,5 +1,6 @@
 package com.zzisoo.gcmsenderapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -7,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 
@@ -32,27 +34,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        View.OnFocusChangeListener onFocusResetTextListener = new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    try {
-                        ((EditText) v).setText("");
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
-                }
-            }
-        };
+        Intent intent = getIntent();
+        if(intent.hasExtra("TOKEN")) {
+            API_TOKEN =  intent.getStringExtra("TOKEN");
+        }
 
-        final EditText etToken = (EditText) findViewById(R.id.etToken);
+
+        final EditText etToken = (EditText) findViewById(com.zzisoo.gcmsenderapp.R.id.etToken);
         final EditText etApiKey = (EditText) findViewById(R.id.etApiKey);
 
         etToken.setText(API_TOKEN);
         etApiKey.setText(API_KEY);
-
-        etToken.setOnFocusChangeListener(onFocusResetTextListener);
-        etApiKey.setOnFocusChangeListener(onFocusResetTextListener);
 
         // set Send button action
         Button btnSend = (Button) findViewById(R.id.btnSend);
@@ -74,6 +66,11 @@ public class MainActivity extends AppCompatActivity {
                         gcmData.to = etToken.getText().toString();
                     } else if (rgTargetSelect.getCheckedRadioButtonId() == R.id.rbTopic) {
                         gcmData.to = "/topics/global";
+                    }
+
+                    boolean bCheckedNormalPriority =((CheckBox)findViewById(R.id.cbPriority)).isChecked();
+                    if(bCheckedNormalPriority) {
+                        gcmData.priority = "normal";
                     }
 
                     gcmData.data.title = etTitle.getText().toString();

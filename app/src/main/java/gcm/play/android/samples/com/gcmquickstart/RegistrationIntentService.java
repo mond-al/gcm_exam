@@ -1,12 +1,12 @@
 /**
  * Copyright 2015 Google Inc. All Rights Reserved.
- * <p/>
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p/>
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p/>
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,11 +17,14 @@
 package gcm.play.android.samples.com.gcmquickstart;
 
 import android.app.IntentService;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.gongdol.http.Contants;
 import com.gongdol.http.RequestInterface;
@@ -62,6 +65,9 @@ public class RegistrationIntentService extends IntentService {
             // [END get_token]
             Log.i(TAG, "GCM Registration Token: " + token);
 
+            sharedPreferences.edit().putString(QuickstartPreferences.GCM_TOKEN, token).apply();
+
+
             // TODO: Implement this method to send any registration to your app's servers.
             sendRegistrationToServer(token);
 
@@ -92,7 +98,7 @@ public class RegistrationIntentService extends IntentService {
      *
      * @param token The new token.
      */
-    private void sendRegistrationToServer(String token) {
+    private void sendRegistrationToServer(final String token) {
 
         RestAdapter tokenRegRestAdapter = new RestAdapter.Builder()
                 .setLogLevel(RestAdapter.LogLevel.FULL)
@@ -100,16 +106,39 @@ public class RegistrationIntentService extends IntentService {
 
         tokenRegRestAdapter.create(RequestInterface.class)
                 .GcmTokenReg("TestUserID", token, new Callback<TokenRegResponse>() {
-            @Override
-            public void success(TokenRegResponse tokenRegResponse, Response response) {
-                Log.e(TAG, tokenRegResponse.getMsg());
-            }
+                    @Override
+                    public void success(TokenRegResponse tokenRegResponse, Response response) {
+                        Log.e(TAG, tokenRegResponse.getMsg());
+                    }
 
-            @Override
-            public void failure(RetrofitError error) {
-                Log.e(TAG, error.toString());
-            }
-        });
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.e(TAG, error.toString());
+                        sendTokenToSenderApp(token);
+                    }
+                });
+
+    }
+
+    /**
+     * Token pass on SenderApp.
+     *
+     * @param token The new token.
+     */
+    private void sendTokenToSenderApp(String token) {
+
+        Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("gcmsender://"));
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.putExtra("TOKEN", token);
+
+        try {
+            startActivity(i);
+        }catch (ActivityNotFoundException e){
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(),"You need to install [GCM Sender App]",Toast.LENGTH_LONG);
+        }
+
 
     }
 

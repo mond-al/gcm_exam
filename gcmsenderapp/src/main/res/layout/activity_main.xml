@@ -1,106 +1,123 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".MainActivity">
-    <!-- Dummy item to prevent AutoCompleteTextView from receiving focus -->
-    <LinearLayout
-        android:focusable="true" android:focusableInTouchMode="true"
-        android:layout_width="0px" android:layout_height="0px"/>
-    <!-- :nextFocusUp and :nextFocusLeft have been set to the id of this component
-         to prevent the dummy from receiving focus again -->
-    <AutoCompleteTextView android:id="@+id/autotext"
-        android:visibility="gone"
-        android:layout_width="fill_parent" android:layout_height="wrap_content"
-        android:nextFocusUp="@id/autotext" android:nextFocusLeft="@id/autotext"/>
-
-    <LinearLayout
+    android:fillViewport="true">
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:orientation="vertical">
-
-        <Button
-            android:id="@+id/btnSend"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context=".MainActivity">
+        <!-- Dummy item to prevent AutoCompleteTextView from receiving focus -->
+        <LinearLayout
+            android:layout_width="0px"
+            android:layout_height="0px"
             android:focusable="true"
-            android:layout_width="wrap_content"
+            android:focusableInTouchMode="true" />
+        <!-- :nextFocusUp and :nextFocusLeft have been set to the id of this component
+             to prevent the dummy from receiving focus again -->
+        <AutoCompleteTextView
+            android:id="@+id/autotext"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="SEND" />
+            android:nextFocusLeft="@id/autotext"
+            android:nextFocusUp="@id/autotext"
+            android:visibility="gone" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:orientation="vertical">
 
-        <RadioGroup
-            android:id="@+id/rgTargetSelect"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <RadioButton
-                android:id="@+id/rbTopic"
+            <Button
+                android:id="@+id/btnSend"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="true"
-                android:text="/Topic/global" />
+                android:layout_gravity="center_horizontal"
+                android:focusable="true"
+                android:text="SEND" />
 
-            <RadioButton
-                android:id="@+id/rbToken"
+
+            <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="false"
+                android:text="Normal Priority"
+                android:id="@+id/cbPriority"
+                android:layout_gravity="right" />
+
+            <RadioGroup
+                android:id="@+id/rgTargetSelect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <RadioButton
+                    android:id="@+id/rbTopic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="/Topic/global" />
+
+                <RadioButton
+                    android:id="@+id/rbToken"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="Token" />
+            </RadioGroup>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="Token" />
-        </RadioGroup>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Token" />
 
 
-        <EditText
-            android:id="@+id/etToken"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <EditText
+                android:id="@+id/etToken"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Google API Key" />
-
-
-        <EditText
-            android:id="@+id/etApiKey"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Title" />
-
-        <EditText
-            android:id="@+id/etTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="GCM TEST" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Body" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Google API Key" />
 
 
-        <EditText
-            android:id="@+id/etBody"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="GCM TEST MESSAGE" />/>
+            <EditText
+                android:id="@+id/etApiKey"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Title" />
+
+            <EditText
+                android:id="@+id/etTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="GCM TEST" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Body" />
 
 
-    </LinearLayout>
-</RelativeLayout>
+            <EditText
+                android:id="@+id/etBody"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="GCM TEST MESSAGE" />/>
+
+
+        </LinearLayout>
+    </RelativeLayout>
+</ScrollView>
